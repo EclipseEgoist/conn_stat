@@ -121,9 +121,9 @@
 	}
 	
 	function barChart() {
-		var dataList;
+		var dataList = [];
 		for(var i = 0; i< parData.length; i++) {
-			//dataList.append(parData[i].)
+			dataList.push(parData[i].countVisit)
 		}
 		var data = {
 			labels: ["00시", "01시", "02시", "03시", "04시", "05시", "06시", "07시", "08시", "09시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시", "19시", "20시", "21시", "22시", "23시"],
@@ -134,7 +134,10 @@
 					strokeColor: "rgba(150,200,250,0.8)",
 					highlightFill: "rgba(150,200,250,0.75)",
 					highlightStroke: "rgba(150,200,250,1)",
+					data: dataList
+					/*
 					data: [65, 59, 80, 81, 56, 55, 30, 100, 120, 50, 11, 40, 70, 120]
+					*/
 				}
 			]
 		};
