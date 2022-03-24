@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.visit.dao.VisitorMapper">
+
+	<select id="getList" resultType="visitorDto">
+		<![CDATA[
+		SELECT * FROM VISITOR
+		]]>
+	</select>
+	
+	<select id="getChartByTime" parameterType="visitorDto" resultType="visitorDto">
+		<![CDATA[
+		SELECT 
+			SUBSTR(VISIT_TIME, 12, 2) SUB_VISIT_TIME, 
+			COUNT(*) as COUNT_VISIT 
+		FROM 
+			VISITOR 
+		WHERE
+			1 = 1
+		]]>
+		<if test='startDate != null and startDate != ""'>
+			<![CDATA[
+  			AND VISIT_TIME >= #{startDate}
+			]]>
+		</if>
+		<if test='endDate != null and endDate != ""'>
+			<![CDATA[
+  			AND VISIT_TIME <= #{endDate}
+			]]>
+		</if>
+		<![CDATA[
+		GROUP BY 
+				SUB_VISIT_TIME
+		]]>
+	</select>
+	
+	<insert id="saveVisitor">
+		<![CDATA[
+		INSERT INTO VISITOR (
+			VISIT_SEQ,
+			VISIT_ID,
+			VISIT_IP,
+			VISIT_ADDR,
+			VISIT_TIME,
+			VISIT_REFER,
+			VISIT_AGENT,
+			PRODUCT,
+			PRODUCT_V,
+			SYSTEM,
+			SYSTEM_V,
+			PLATFORM,
+			PLATFORM_V,
+			EXT
+		) VALUES (
+			#{visitSeq},
+			#{visitId},
+			#{visitIp},
+			#{visitAddr},
+			#{visitTime},
+			#{visitRefer},
+			#{visitAgent},
+			#{product},
+			#{productV},
+			#{system},
+			#{systemV},
+			#{platform},
+			#{platformV},
+			#{ext}
+		)
+		]]>
+	</insert>
+	
+	<select id="getVisitSeq" resultType="Long">
+		<![CDATA[
+		SELECT 
+			NVL(COUNT(VISIT_SEQ), 0) + 1
+		FROM
+			VISITOR
+		]]>
+	</select>
+</mapper>
